@@ -3,8 +3,8 @@ package ru.anton.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.anton.models.Question;
 import ru.anton.repo.QuestionRepository;
 
 
@@ -14,6 +14,12 @@ public class ExaminerController {
 
 
     private final QuestionRepository questionRepository;
+
+    @GetMapping()
+    public String home(){
+
+        return "/tests/home";
+    }
 
     @Autowired
     public ExaminerController(QuestionRepository questionRepository) {
@@ -25,6 +31,19 @@ public class ExaminerController {
     public String getAllCustomers(Model model) {
         model.addAttribute("questions", questionRepository.findAll());
         return "tests/questions";
+    }
+
+    @GetMapping("{id}")
+    public String getSingleQuestion(@PathVariable("id") long id, Model model){
+        model.addAttribute("question", questionRepository.findById(id));
+        return "tests/question";
+    }
+
+    @PostMapping("/answer/{id}")
+    public String getAnswer(Model model, @ModelAttribute Question answer, @PathVariable("id") int id){
+        model.addAttribute("answers",  answer);
+        model.addAttribute("id", id);
+        return "tests/answer";
     }
 
 }

@@ -9,10 +9,13 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(length = 4000)
     private String question;
+
     @Column(length = 4000)
     private String[] testOptions;
+
     private String answer;
 
     public String getAnswer() {

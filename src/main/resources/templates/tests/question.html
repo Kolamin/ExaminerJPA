@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Question</title>
+</head>
+<body>
+<div class="container">
+    <header>
+
+        <h3 id="h1" th:text="'Вопрос ' + ${question.id}"></h3>
+    </header>
+    <form th:method="post" th:action="@{/tests/answer/{id}(id=${question.getId()})}" th:object="${question}">
+
+        <h3 th:text="*{getQuestion()}"></h3>
+        <br>
+        <ul class="list-group">
+            <li id="li" th:each="test : *{getTestOptions()}" class="list-group-item">
+                <input type="radio" th:field="${question.answer}" th:value="${test}" th:name="testOptions"
+                       onclick="document.getElementById('push').disabled = false" class="form-check-input"
+                       aria-label="Radio button for following text input">
+                <label th:text="${test}"></label>
+            </li>
+        </ul>
+        <br>
+        <input th:id="push" type="submit" value="Ответить" disabled class="btn btn-primary">
+    </form>
+
+    <br>
+
+    <a th:href="@{/tests}">Вернутся на главную страницу</a>
+</div>
+</body>
+</html>

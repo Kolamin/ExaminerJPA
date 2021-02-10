@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All questions</title>
+</head>
+<body>
+<h1 id="h1">Вопросы</h1>
+
+<div th:each="question : ${questions}">
+    <h3 th:text="${question.getId()} + ') ' + ${question.getQuestion()}"></h3>
+    <div th:each="tests: ${question.getTestOptions()}">
+        <ul th:each="test:${tests}">
+            <li th:text="${test}"></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
