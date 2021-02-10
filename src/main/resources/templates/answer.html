@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <form method="get" th:action="@{/tests/{id}(id=${id > 189}? 1 : ${id} + 1)}">
+    <form method="get" th:action="@{/{id}(id=${id > 189}? 1 : ${id} + 1)}">
         <h3 th:text="'Ответ на вопрос № '+ ${id} + ' - ' + ${answers.getAnswer()}"></h3>
         <input type="submit" value="Следующий вопрос" class="btn btn-primary">
     </form>

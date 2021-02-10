@@ -12,7 +12,7 @@
 
         <h3 id="h1" th:text="'Вопрос ' + ${question.id}"></h3>
     </header>
-    <form th:method="post" th:action="@{/tests/answer/{id}(id=${question.getId()})}" th:object="${question}">
+    <form th:method="post" th:action="@{/answer/{id}(id=${question.getId()})}" th:object="${question}">
 
         <h3 th:text="*{getQuestion()}"></h3>
         <br>
@@ -30,7 +30,7 @@
 
     <br>
 
-    <a th:href="@{/tests}">Вернутся на главную страницу</a>
+    <a th:href="@{/}">Вернутся на главную страницу</a>
 </div>
 </body>
 </html>
