@@ -10,19 +10,12 @@ import ru.anton.repo.QuestionRepository;
 
 
 @Controller
-//@RequestMapping("/tests")
 public class ExaminerController {
 
 
     private final QuestionRepository questionRepository;
 
     private final AnswerRepository answerRepository;
-
-    @GetMapping("/")
-    public String home(){
-
-        return "home";
-    }
 
     @Autowired
     public ExaminerController(QuestionRepository questionRepository, AnswerRepository answerRepository) {
@@ -50,7 +43,7 @@ public class ExaminerController {
         return "questions";
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/concrete/{id}")
     public String getSingleQuestion(@PathVariable("id") long id, Model model){
         model.addAttribute("question", questionRepository.findById(id));
         return "question";

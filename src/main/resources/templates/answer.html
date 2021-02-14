@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -7,8 +9,14 @@
     <title>Answer</title>
 </head>
 <body>
+<div>
+    <p th:inline="text">Пользователь: [[${#httpServletRequest.remoteUser}]]</p>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Выйти"/>
+    </form>
+</div>
 <div class="container">
-    <form method="get" th:action="@{/{id}(id=${id > 189}? 1 : ${id} + 1)}">
+    <form method="get" th:action="@{/concrete/{id}(id=${id > 189}? 1 : ${id} + 1)}">
         <h3 th:text="'Ваш ответ на вопрос № '+ ${id} + ' - ' + ${answers.getAnswer()}"></h3>
         <br>
         <div>
@@ -19,7 +27,7 @@
         <input type="submit" value="Следующий вопрос" class="btn btn-primary">
     </form>
     <br>
-    <form th:action="@{/{id}(id=${answers.getId()})}" method="get">
+    <form th:action="@{/concrete/{id}(id=${answers.getId()})}" method="get">
         <input type="submit" value="Повторить вопрос" class="btn btn-warning">
     </form>
 </div>

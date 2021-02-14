@@ -7,7 +7,7 @@ public class CorrectAnswer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(length = 4000)
     private String correctAnswer;
