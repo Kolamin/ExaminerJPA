@@ -12,7 +12,7 @@
 <div>
     <p th:inline="text">Пользователь: [[${#httpServletRequest.remoteUser}]]</p>
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Выйти"/>
+        <input type="submit" value="Выйти" class="btn btn-secondary"/>
     </form>
 </div>
 <div class="container">

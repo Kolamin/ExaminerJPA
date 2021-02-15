@@ -7,7 +7,10 @@
           rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
-<p class="p1">Страница авторизации</p>
+<p>Добавить нового пользователя</p>
+<div th:if="message">
+    <p th:text="${message}"></p>
+</div>
 <div th:if="${param.error}">
     Неверное имя пользователя и пароль.
 </div>
@@ -15,7 +18,7 @@
     Вы вышли из системы.
 </div>
 <div class="mb-3">
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/registration}" method="post">
         <div class="mb-3">
             <label for="inputUserName" class="form-label">Имя пользователя:</label>
             <input type="text" id="inputUserName" name="username" class="mb-3">
@@ -24,9 +27,8 @@
             <label class="mb-3"> Пароль:</label>
             <input type="password" id="inputUserPassword" name="password" class="mb-3">
         </div>
-        <div><input type="submit" value="Войти" class="btn btn-primary"/></div>
+        <div class="mb-3"><input type="submit" value="Добавить" class="btn btn-primary"/></div>
     </form>
 </div>
-<div class="mb-3"><a href="/registration" class="btn btn-primary">Добавить пользователя</a></div>
 </body>
 </html>
