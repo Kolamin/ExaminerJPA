@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/my-template :: head}">
+
+</head>
+<body>
+<div th:insert="~{fragments/my-template :: navbar}"></div>
+
+<form action="/user" method="post" th:object="${user}">
+    <input type="text" name="username" th:value="${user.username}">
+    <ul th:each="role : ${roles}">
+        <li>
+            <input th:type="checkbox" th:value="${role}" th:checked="${user.roles}" ? checked : disabled>
+        </li>
+    </ul>
+    <input type="hidden" th:value="${user.id}" name="userId" />
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
