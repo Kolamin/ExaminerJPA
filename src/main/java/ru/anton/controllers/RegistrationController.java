@@ -1,6 +1,6 @@
 package ru.anton.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.anton.models.Role;
 import ru.anton.models.User;
 import ru.anton.repo.UserRepo;
+import ru.anton.service.UserService;
 
 import java.util.Collections;
 import java.util.Map;
@@ -15,8 +16,11 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
-    @Autowired
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
+
+    public RegistrationController(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @GetMapping("/registration")
     public String registration(){

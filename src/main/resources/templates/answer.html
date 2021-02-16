@@ -4,32 +4,18 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>Answer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Begin</title>
 </head>
 <body>
-<div>
-    <p th:inline="text">Пользователь: [[${#httpServletRequest.remoteUser}]]</p>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Выйти"/>
-    </form>
-</div>
-<div class="container">
-    <form method="get" th:action="@{/concrete/{id}(id=${id > 189}? 1 : ${id} + 1)}">
-        <h3 th:text="'Ваш ответ на вопрос № '+ ${id} + ' - ' + ${answers.getAnswer()}"></h3>
-        <br>
-        <div>
-            <h3 th:class="${answers.getAnswer() eq correctAnswer.getCorrectAnswer()}? 'text-success' : 'text-danger'"
-                th:text="${answers.getAnswer() eq correctAnswer.getCorrectAnswer()}? 'Верный ответ' : 'Ответ неверный'"></h3>
-        </div>
-        <br>
-        <input type="submit" value="Следующий вопрос" class="btn btn-primary">
-    </form>
-    <br>
-    <form th:action="@{/concrete/{id}(id=${answers.getId()})}" method="get">
-        <input type="submit" value="Повторить вопрос" class="btn btn-warning">
-    </form>
+<div th:insert="~{fragments/my-template :: navbar}"></div>
+
+<div align="center" class="container mt-5"><h1>Правила технической эксплуатации тепловых энергоустановок</h1></div>
+<div align="center">
+    <p class="h3">Нажмите <a th:href="@{/concrete/{id}(id=1)}">здесь,</a> чтобы войти в тестирование</p>
 </div>
 </body>
 </html>
