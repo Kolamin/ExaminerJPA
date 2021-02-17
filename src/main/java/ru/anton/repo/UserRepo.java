@@ -7,4 +7,6 @@ import ru.anton.models.User;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
     User findByUsername(String username);
+
+    User findUserById (long id);
 }
