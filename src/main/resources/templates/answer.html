@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head th:insert="~{fragments/my-template :: head}">
 </head>
 <body>
 <div th:insert="~{fragments/my-template :: navbar}"></div>
-    <div>
-        <p th:inline="text">Пользователь: [[${#httpServletRequest.remoteUser}]]</p>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Выйти"/>
-        </form>
-    </div>
-    <div class="container">
-        <form method="get" th:action="@{/concrete/{id}(id=${id > 189}? 1 : ${id} + 1)}">
-            <h3 th:text="'Ваш ответ на вопрос № '+ ${id} + ' - ' + ${answers.getAnswer()}"></h3>
-            <br>
-            <div>
-                <h3 th:class="${answers.getAnswer() eq correctAnswer.getCorrectAnswer()}? 'text-success' : 'text-danger'"
-                    th:text="${answers.getAnswer() eq correctAnswer.getCorrectAnswer()}? 'Верный ответ' : 'Ответ неверный'"></h3>
-            </div>
-            <br>
-            <input type="submit" value="Следующий вопрос" class="btn btn-primary">
-        </form>
+
+<div class="container">
+    <form method="get" th:action="@{/concrete/{id}(id=${id > 189}? 1 : ${id} + 1)}">
+        <h3 th:text="'Ваш ответ на вопрос № '+ ${id} + ' - ' + ${answers.getAnswer()}"></h3>
         <br>
-        <form th:action="@{/concrete/{id}(id=${answers.getId()})}" method="get">
-            <input type="submit" value="Повторить вопрос" class="btn btn-warning">
-        </form>
-    </div>
+        <div>
+            <h3 th:class="${answers.getAnswer() eq correctAnswer.getCorrectAnswer()}? 'text-success' : 'text-danger'"
+                th:text="${answers.getAnswer() eq correctAnswer.getCorrectAnswer()}? 'Верный ответ' : 'Ответ неверный'"></h3>
+        </div>
+        <br>
+        <input type="submit" value="Следующий вопрос" class="btn btn-primary">
+    </form>
+    <br>
+    <form th:action="@{/concrete/{id}(id=${answers.getId()})}" method="get">
+        <input type="submit" value="Повторить вопрос" class="btn btn-warning">
+    </form>
+</div>
 </body>
 </html>

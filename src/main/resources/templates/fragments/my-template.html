@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,16 +20,25 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" >
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Home</a>
+                    <a class="nav-link active" href="/">Главная</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/user">User list</a>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link active" aria-current="page" href="/user">Список пользователей</a>
                 </li>
-
             </ul>
+            <div class="navbar-text mr-3">
+                <h3 th:inline="text" >[[${#httpServletRequest.remoteUser}]]</h3>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Выйти" class="btn btn-secondary"/>
+                </form>
+            </div>
+
+            <div>
+
+            </div>
         </div>
     </div>
 </nav>
@@ -36,11 +46,9 @@
 <div th:fragment="frag(page, value)" class="mb-3">
     <form th:action="${page}" method="post">
         <div class="mb-3">
-            <!--            <label for="inputUserName" class="form-label">Имя пользователя:</label>-->
             <input type="text" id="inputUserName" name="username" class="mb-3" placeholder="Имя пользователя">
         </div>
         <div class="mb-3">
-            <!--            <label class="mb-3"> Пароль:</label>-->
             <input type="password" id="inputUserPassword" name="password" class="mb-3" placeholder="Пароль">
         </div>
         <div class="mb-3"><input type="submit" th:value="${value}" class="btn btn-primary"/></div>
