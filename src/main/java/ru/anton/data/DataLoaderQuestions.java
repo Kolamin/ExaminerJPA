@@ -1,10 +1,8 @@
 package ru.anton.data;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import ru.anton.ExamTestAppApplication;
 import ru.anton.models.CorrectAnswer;
 import ru.anton.models.Question;
 import ru.anton.repo.AnswerRepository;
@@ -12,26 +10,16 @@ import ru.anton.repo.QuestionRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 @Service
 public class DataLoaderQuestions implements CommandLineRunner {
 
-    private static final String QUESTION_URL =
-            "https://raw.githubusercontent.com/Kolamin/Questions/main/Thermal_power_plants.txt";
+    private final AnswerRepository answerRepository;
 
-    private static final String ANSWER_URL =
-            "https://raw.githubusercontent.com/Kolamin/Questions/main/Answer.txt";
-
-    private AnswerRepository answerRepository;
-
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
     public DataLoaderQuestions(AnswerRepository answerRepository, QuestionRepository questionRepository) {
         this.answerRepository = answerRepository;
@@ -40,23 +28,19 @@ public class DataLoaderQuestions implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        HttpClient client;
-        client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(QUESTION_URL))
-                .build();
-        HttpResponse<String> httpResponse =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        Reader stringReaderAllTest = new StringReader(httpResponse.body());
+        ExamTestAppApplication obj = new ExamTestAppApplication();
 
-        HttpRequest newRequest = HttpRequest.newBuilder()
-                .uri(URI.create(ANSWER_URL))
-                .build();
 
-        httpResponse = client.send(newRequest, HttpResponse.BodyHandlers.ofString());
+        InputStream stringReaderAllTest = obj.getClass()
+                .getClassLoader()
+                .getResourceAsStream("Thermal_power_plants.txt");
 
-        Reader strReaderCorrectAnswer = new StringReader(httpResponse.body());
+
+        InputStream strReaderCorrectAnswer = obj.getClass()
+                .getClassLoader()
+                .getResourceAsStream("Answer.txt");
+
 
         String[] splitAllTest = getStrings(stringReaderAllTest);
 
@@ -64,8 +48,9 @@ public class DataLoaderQuestions implements CommandLineRunner {
 
         for (String s : resultAllTest) {
             String[] strings = s.split("\\n");
-            questionRepository.save(new Question(strings[1],Arrays.copyOfRange(strings, 2, strings.length)));
+            questionRepository.save(new Question(strings[1], Arrays.copyOfRange(strings, 2, strings.length)));
         }
+
 
         String[] correctAnswers = getStrings(strReaderCorrectAnswer);
 
@@ -74,19 +59,19 @@ public class DataLoaderQuestions implements CommandLineRunner {
         for (String s : resultCorrectAnswer) {
             String[] split = s.split("\\n");
 
-           answerRepository.save(new CorrectAnswer(split[2]));
+            answerRepository.save(new CorrectAnswer(split[2]));
         }
 
     }
 
-    private String[] getStrings(Reader stringReaderAllTest) throws IOException {
+    private String[] getStrings(InputStream stringReaderAllTest) throws IOException {
         StringBuilder fileContent;
-        try (BufferedReader br = new BufferedReader(stringReaderAllTest)) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(stringReaderAllTest))) {
 
             fileContent = new StringBuilder();
             String st;
             while ((st = br.readLine()) != null) {
-                if(st.contains("Правила по охране труда при эксплуатации тепловых энергоустановок"))
+                if (st.contains("Правила по охране труда при эксплуатации тепловых энергоустановок"))
                     continue;
                 if (st.contains("Мероприятия по оказани первой помощи (Приказ Минздрава России от 04.05.2012 № 477н)"))
                     continue;
@@ -96,8 +81,7 @@ public class DataLoaderQuestions implements CommandLineRunner {
         }
 
 
-        String[] split = fileContent.toString()
+        return fileContent.toString()
                 .split("Вопрос \\d+");
-        return split;
     }
 }
